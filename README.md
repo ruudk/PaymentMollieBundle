@@ -44,8 +44,9 @@ Add the following to your config.yml:
 ruudk_payment_mollie:
     partner_id:     Your partner id
     profile_key:    ~
-    test:           true/false
+    test:           true/false   # Default true
     report_url:     http://host/webhook/mollie
+    logger:         true/false   # Default true
     methods:
       - ideal
 ```

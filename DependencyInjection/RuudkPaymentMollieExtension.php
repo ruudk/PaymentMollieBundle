@@ -37,6 +37,16 @@ class RuudkPaymentMollieExtension extends Extension
         if(!in_array('ideal', $config['methods'])) {
             $container->removeDefinition('ruudk_payment_mollie.cache_warmer');
         }
+
+        /**
+         * When logging is disabled, remove logger and setLogger calls
+         */
+        if(false === $config['logger']) {
+            $container->getDefinition('ruudk_payment_mollie.controller.notification')->removeMethodCall('setLogger');
+            $container->getDefinition('ruudk_payment_mollie.plugin.default')->removeMethodCall('setLogger');
+            $container->getDefinition('ruudk_payment_mollie.plugin.ideal')->removeMethodCall('setLogger');
+            $container->removeDefinition('monolog.logger.ruudk_payment_mollie');
+        }
     }
 
     protected function addFormType(ContainerBuilder $container, $method)

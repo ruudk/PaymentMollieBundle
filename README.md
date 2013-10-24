@@ -50,7 +50,20 @@ ruudk_payment_mollie:
     methods:
       - ideal
 ```
-
 For now, iDEAL is the only supported method.
+
+Make sure you set the `return_url` in the `predefined_data` for every payment method you enable:
+````php
+$form = $this->getFormFactory()->create('jms_choose_payment_method', null, array(
+    'amount'   => $order->getAmount(),
+    'currency' => 'EUR',
+    'predefined_data' => array(
+        'mollie_ideal' => array(
+            'return_url' => $this->generateUrl('order_complete', array(), true),
+        ),
+    ),
+));
+````
+It's also possible to set a `description` for the transaction in the `predefined_data`.
 
 See [JMSPaymentCoreBundle documentation](http://jmsyst.com/bundles/JMSPaymentCoreBundle/master/usage) for more info.

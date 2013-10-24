@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="ruudk_payment_mollie.api.class">AMNL\Mollie\IDeal\IDealGateway</parameter>
+        <parameter key="ruudk_payment_mollie.buzz_client.class">Buzz\Client\Curl</parameter>
+        <parameter key="ruudk_payment_mollie.cache_warmer.class">Ruudk\Payment\MollieBundle\CacheWarmer\IdealCacheWarmer</parameter>
+        <parameter key="ruudk_payment_mollie.controller.notification.class">Ruudk\Payment\MollieBundle\Controller\NotificationController</parameter>
+        <parameter key="ruudk_payment_mollie.form.ideal_type.class">Ruudk\Payment\MollieBundle\Form\IdealType</parameter>
+        <parameter key="ruudk_payment_mollie.form.mollie_type.class">Ruudk\Payment\MollieBundle\Form\MollieType</parameter>
+        <parameter key="ruudk_payment_mollie.plugin.default.class">Ruudk\Payment\MollieBundle\Plugin\DefaultPlugin</parameter>
+        <parameter key="ruudk_payment_mollie.plugin.ideal.class">Ruudk\Payment\MollieBundle\Plugin\IdealPlugin</parameter>
+        <parameter key="ruudk_payment_mollie.partner_id" />
+        <parameter key="ruudk_payment_mollie.profile_key" />
+        <parameter key="ruudk_payment_mollie.test" />
+        <parameter key="ruudk_payment_mollie.report_url" />
+    </parameters>
+
+    <services>
+        <service id="ruudk_payment_mollie.cache_warmer" class="%ruudk_payment_mollie.cache_warmer.class%">
+            <argument type="service" id="ruudk_payment_mollie.api" />
+            <tag name="kernel.cache_warmer" />
+        </service>
+
+        <service id="ruudk_payment_mollie.controller.notification" class="%ruudk_payment_mollie.controller.notification.class%">
+            <argument type="service" id="payment.plugin_controller" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <!--
+            Useful for debug purposes
+            <call method="setLogger">
+                <argument type="service" id="monolog.logger.ruudk_payment_mollie" on-invalid="null" strict="false" />
+            </call>
+            -->
+        </service>
+
+        <service id="ruudk_payment_mollie.buzz_client" class="%ruudk_payment_mollie.buzz_client.class%">
+            <call method="setTimeout">
+                <argument>10</argument>
+            </call>
+        </service>
+
+        <service id="ruudk_payment_mollie.api" class="%ruudk_payment_mollie.api.class%">
+            <argument>%ruudk_payment_mollie.partner_id%</argument>
+            <argument>%ruudk_payment_mollie.profile_key%</argument>
+            <argument>%ruudk_payment_mollie.test%</argument>
+            <argument>null</argument>
+            <argument type="service" id="ruudk_payment_mollie.buzz_client" />
+        </service>
+
+        <service id="ruudk_payment_mollie.plugin.default" class="%ruudk_payment_mollie.plugin.default.class%">
+            <argument type="service" id="ruudk_payment_mollie.api" />
+            <argument>%ruudk_payment_mollie.report_url%</argument>
+            <!--
+            Useful for debug purposes
+            <call method="setLogger">
+                <argument type="service" id="monolog.logger.ruudk_payment_mollie" on-invalid="null" strict="false" />
+            </call>
+            -->
+            <tag name="payment.plugin" />
+        </service>
+
+        <service id="ruudk_payment_mollie.plugin.ideal" class="%ruudk_payment_mollie.plugin.ideal.class%">
+            <argument type="service" id="ruudk_payment_mollie.api" />
+            <argument>%ruudk_payment_mollie.report_url%</argument>
+            <!--
+            Useful for debug purposes
+            <call method="setLogger">
+                <argument type="service" id="monolog.logger.ruudk_payment_mollie" on-invalid="null" strict="false" />
+            </call>
+            -->
+            <tag name="payment.plugin" />
+        </service>
+
+        <service id="monolog.logger.ruudk_payment_mollie" parent="monolog.logger_prototype">
+            <argument index="0">ruudk_payment_mollie</argument>
+        </service>
+    </services>
+</container>

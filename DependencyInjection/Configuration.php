@@ -15,21 +15,11 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ruudk_payment_mollie');
 
-        $methods = array('ideal');
+        $methods = array('ideal', 'creditcard', 'mistercash', 'paysafecard');
 
         $rootNode
             ->children()
-                ->scalarNode('partner_id')
-                    ->isRequired()
-                    ->cannotBeEmpty()
-                ->end()
-                ->scalarNode('profile_key')
-                    ->defaultNull()
-                ->end()
-                ->booleanNode('test')
-                    ->defaultTrue()
-                ->end()
-                ->scalarNode('report_url')
+                ->scalarNode('api_key')
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()

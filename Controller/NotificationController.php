@@ -52,67 +52,64 @@ class NotificationController
     public function processNotification(Request $request)
     {
         if($this->logger) {
-            $this->logger->info(print_r($request->query->all(), true));
+            $this->logger->info(print_r($request->request->all(), true));
         }
 
-        if($request->query->has('transaction_id'))
-        {
-            try
-            {
-                $financialTransaction = $this->entityManager->getRepository('JMS\Payment\CoreBundle\Entity\FinancialTransaction')->findOneByTrackingId($request->query->get('transaction_id'));
+        if(false === $request->request->has('id')) {
+            return new Response('[no id]', 500);
+        }
 
+        try
+        {
+            $financialTransaction = $this->entityManager->getRepository('JMS\Payment\CoreBundle\Entity\FinancialTransaction')->findOneByTrackingId($request->request->get('id'));
+
+            /**
+             * @var \JMS\Payment\CoreBundle\Entity\Payment $payment
+             */
+            if(null !== $financialTransaction)
+            {
                 /**
-                 * @var \JMS\Payment\CoreBundle\Entity\Payment $payment
+                 * @var \JMS\Payment\CoreBundle\Entity\FinancialTransaction $financialTransaction
                  */
-                if(null !== $financialTransaction)
+                $payment = $financialTransaction->getPayment();
+
+                if($payment->getState() === PaymentInterface::STATE_APPROVING)
                 {
-                    /**
-                     * @var \JMS\Payment\CoreBundle\Entity\FinancialTransaction $financialTransaction
-                     */
-                    $payment = $financialTransaction->getPayment();
+                    $instruction = $payment->getPaymentInstruction();
 
-                    if($payment->getState() === PaymentInterface::STATE_APPROVING)
-                    {
-                        $instruction = $payment->getPaymentInstruction();
+                    $result = $this->pluginController->approveAndDeposit($payment->getId(), $financialTransaction->getRequestedAmount());
 
-                        $result = $this->pluginController->approveAndDeposit($payment->getId(), $financialTransaction->getRequestedAmount());
-
-                        if($this->logger) {
-                            $status = array(null, 'STATUS_FAILED', 'STATUS_PENDING', 'STATUS_SUCCESS', 'STATUS_UNKNOWN');
-                            $this->logger->info('Result -> ' . $status[$result->getStatus()]);
-                        }
-
-                        if(Result::STATUS_SUCCESS === $result->getStatus()) {
-                            $this->pluginController->closePaymentInstruction($instruction);
-
-                            if($this->logger) {
-                                $this->logger->info('closePaymentInstruction');
-                            }
-                        }
+                    if($this->logger) {
+                        $status = array(null, 'STATUS_FAILED', 'STATUS_PENDING', 'STATUS_SUCCESS', 'STATUS_UNKNOWN');
+                        $this->logger->info('Result -> ' . $status[$result->getStatus()]);
                     }
-                    else
-                    {
+
+                    if(Result::STATUS_SUCCESS === $result->getStatus()) {
+                        $this->pluginController->closePaymentInstruction($instruction);
+
                         if($this->logger) {
-                            $states = array(null, 'STATE_APPROVED', 'STATE_APPROVING', 'STATE_CANCELED' , 'STATE_EXPIRED', 'STATE_FAILED' , 'STATE_NEW', 'STATE_DEPOSITING', 'STATE_DEPOSITED');
-                            $this->logger->info('Payment state is not STATE_APPROVING but  -> ' . $states[$payment->getState()]);
+                            $this->logger->info('closePaymentInstruction');
                         }
                     }
                 }
-            }
-            catch(\Exception $e)
-            {
-                if($this->logger) {
-                    $this->logger->info($e->getMessage());
+                else
+                {
+                    if($this->logger) {
+                        $states = array(null, 'STATE_APPROVED', 'STATE_APPROVING', 'STATE_CANCELED' , 'STATE_EXPIRED', 'STATE_FAILED' , 'STATE_NEW', 'STATE_DEPOSITING', 'STATE_DEPOSITED');
+                        $this->logger->info('Payment state is not STATE_APPROVING but  -> ' . $states[$payment->getState()]);
+                    }
                 }
-
-                return new Response('[failed]', 500);
             }
+
+            return new Response('[accepted]');
         }
-        else
+        catch(\Exception $e)
         {
-            return new Response('[no transaction_id]', 500);
-        }
+            if($this->logger) {
+                $this->logger->info($e->getMessage());
+            }
 
-        return new Response('[accepted]');
+            return new Response('[failed]', 500);
+        }
     }
 }

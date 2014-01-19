@@ -22,10 +22,7 @@ class RuudkPaymentMollieExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $container->setParameter('ruudk_payment_mollie.partner_id', $config['partner_id']);
-        $container->setParameter('ruudk_payment_mollie.profile_key', $config['profile_key']);
-        $container->setParameter('ruudk_payment_mollie.test', $config['test']);
-        $container->setParameter('ruudk_payment_mollie.report_url', $config['report_url']);
+        $container->setParameter('ruudk_payment_mollie.api_key', $config['api_key']);
 
         foreach($config['methods'] AS $method) {
             $this->addFormType($container, $method);

@@ -13,7 +13,7 @@ use JMS\Payment\CoreBundle\Plugin\Exception\BlockedException;
 use JMS\Payment\CoreBundle\Plugin\Exception\CommunicationException;
 use JMS\Payment\CoreBundle\Plugin\Exception\FinancialException;
 use JMS\Payment\CoreBundle\Plugin\PluginInterface;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use AMNL\Mollie\IDeal\IDealGateway;
 
 class DefaultPlugin extends AbstractPlugin
@@ -24,7 +24,7 @@ class DefaultPlugin extends AbstractPlugin
     protected $api;
 
     /**
-     * @var \Monolog\Logger
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
@@ -40,9 +40,9 @@ class DefaultPlugin extends AbstractPlugin
     }
 
     /**
-     * @param Logger $logger
+     * @param LoggerInterface $logger
      */
-    public function setLogger(Logger $logger = null)
+    public function setLogger(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use JMS\Payment\CoreBundle\PluginController\PluginController;
 use JMS\Payment\CoreBundle\PluginController\Result;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,14 +23,13 @@ class NotificationController
     protected $entityManager;
 
     /**
-     * @var \Monolog\Logger
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
     /**
      * @param PluginController $pluginController
      * @param EntityManager    $entityManager
-     * @param Logger           $logger
      */
     public function __construct(PluginController $pluginController, EntityManager $entityManager)
     {
@@ -39,9 +38,9 @@ class NotificationController
     }
 
     /**
-     * @param Logger $logger
+     * @param LoggerInterface $logger
      */
-    public function setLogger(Logger $logger = null)
+    public function setLogger(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }

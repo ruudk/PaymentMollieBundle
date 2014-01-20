@@ -85,7 +85,7 @@ class DefaultPlugin extends AbstractPlugin
                 return;
             }
 
-            if($response->getStatus() === $response::STATUS_CANCELLED) {
+            if($response->isCancelled()) {
                 $ex = new FinancialException('Payment cancelled.');
                 $ex->setFinancialTransaction($transaction);
                 $transaction->setResponseCode('CANCELLED');
@@ -102,7 +102,7 @@ class DefaultPlugin extends AbstractPlugin
                 throw $ex;
             }
 
-            if($response->getStatus() === $response::STATUS_EXPIRED) {
+            if($response->isExpired()) {
                 $ex = new FinancialException('Payment expired.');
                 $ex->setFinancialTransaction($transaction);
                 $transaction->setResponseCode('EXPIRED');

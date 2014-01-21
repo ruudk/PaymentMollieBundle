@@ -56,7 +56,7 @@ class NotificationController
         }
 
         if(false === $request->request->has('id')) {
-            return new Response('[no id]', 500);
+            return new Response('[no id]', 200);
         }
 
         try
@@ -101,7 +101,7 @@ class NotificationController
                 }
             }
 
-            return new Response('[accepted]');
+            return new Response('[accepted]', 201);
         }
         catch(\Exception $e)
         {

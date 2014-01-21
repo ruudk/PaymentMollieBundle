@@ -46,8 +46,8 @@ ruudk_payment_mollie:
     logger:   true/false   # Default true
     methods:
       - ideal
-      - mistercash
-      - creditcard
+      - mister_cash
+      - credit_card
       - paysafecard
 ```
 

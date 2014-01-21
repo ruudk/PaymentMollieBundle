@@ -42,15 +42,14 @@ ruudk_payment_mollie_notifications:
 Add the following to your config.yml:
 ```yaml
 ruudk_payment_mollie:
-    partner_id:     Your partner id
-    profile_key:    ~
-    test:           true/false   # Default true
-    report_url:     http://host/webhook/mollie
-    logger:         true/false   # Default true
+    api_key:  Your API key
+    logger:   true/false   # Default true
     methods:
       - ideal
+      - mistercash
+      - creditcard
+      - paysafecard
 ```
-For now, iDEAL is the only supported method.
 
 Make sure you set the `return_url` in the `predefined_data` for every payment method you enable:
 ````php

@@ -2,20 +2,22 @@
 
 namespace Ruudk\Payment\MollieBundle\CacheWarmer;
 
-use AMNL\Mollie\Exception\MollieException;
-use AMNL\Mollie\IDeal\IDealGateway;
+use Omnipay\Mollie\Gateway;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
 
-class IdealCacheWarmer extends CacheWarmer
+class IssuersCacheWarmer extends CacheWarmer
 {
     /**
-     * @var \AMNL\Mollie\IDeal\IDealGateway
+     * @var \Omnipay\Mollie\Gateway
      */
-    private $api;
+    protected $gateway;
 
-    public function __construct(IDealGateway $api)
+    /**
+     * @param Gateway $gateway
+     */
+    public function __construct(Gateway $gateway)
     {
-        $this->api = $api;
+        $this->gateway = $gateway;
     }
 
     /**
@@ -26,15 +28,10 @@ class IdealCacheWarmer extends CacheWarmer
     public function warmUp($cacheDir)
     {
         try {
-            $list = $this->api->getBankList();
+            $issuers = $this->gateway->fetchIssuers()->send()->getIssuers();
 
-            $banks = array();
-            foreach($list AS $bank) {
-                $banks[$bank->getId()] = $bank->getName();
-            }
-
-            $this->writeCacheFile($cacheDir . '/ruudk_payment_mollie_ideal.php', sprintf('<?php return %s;', var_export($banks, true)));
-        } catch(MollieException $exception) {
+            $this->writeCacheFile($cacheDir . '/ruudk_payment_mollie_issuers.php', sprintf('<?php return %s;', var_export($issuers, true)));
+        } catch(\Exception $exception) {
             throw new \RuntimeException($exception->getMessage());
         }
     }

@@ -16,7 +16,7 @@
         "symfony/framework-bundle": "~2.0",
         "jms/payment-core-bundle": "~1.0",
         "psr/log": "~1.0",
-        "omnipay/mollie": "dev-master"
+        "omnipay/mollie": "~3.0"
     },
     "autoload": {
         "psr-0": { "Ruudk\\Payment\\MollieBundle": "" }

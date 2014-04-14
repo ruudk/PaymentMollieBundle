@@ -30,7 +30,17 @@ class IssuersCacheWarmer extends CacheWarmer
         try {
             $issuers = $this->gateway->fetchIssuers()->send()->getIssuers();
 
-            $this->writeCacheFile($cacheDir . '/ruudk_payment_mollie_issuers.php', sprintf('<?php return %s;', var_export($issuers, true)));
+            $cacheFile = "<?php return array(" . PHP_EOL;
+            foreach($issuers AS $issuer) {
+                $cacheFile .= sprintf('new \Omnipay\Common\Issuer(%s, %s, %s),' . PHP_EOL,
+                    var_export($issuer->getId(), true),
+                    var_export($issuer->getName(), true),
+                    var_export($issuer->getPaymentMethod(), true)
+                );
+            }
+            $cacheFile .= ");";
+
+            $this->writeCacheFile($cacheDir . '/ruudk_payment_mollie_issuers.php', $cacheFile);
         } catch(\Exception $exception) {
             throw new \RuntimeException($exception->getMessage());
         }

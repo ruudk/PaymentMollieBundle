@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class IdealType extends MollieType
 {
     /**
-     * @var array
+     * @var \Omnipay\Common\Issuer[]
      */
     protected $issuers = array();
 
@@ -28,11 +28,11 @@ class IdealType extends MollieType
     {
         $banks = array();
         foreach($this->issuers AS $issuer) {
-            if('ideal' !== $issuer['method']) {
+            if('ideal' !== $issuer->getPaymentMethod()) {
                 continue;
             }
 
-            $banks[$issuer['id']] = $issuer['name'];
+            $banks[$issuer->getId()] = $issuer->getName();
         }
 
         $builder->add('bank', 'choice', array(

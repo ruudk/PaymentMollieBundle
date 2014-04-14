@@ -183,7 +183,7 @@ class DefaultPlugin extends AbstractPlugin
             'amount'        => $payment->getTargetAmount(),
             'description'   => $data->has('description') ? $data->get('description') : 'Transaction ' . $payment->getId(),
             'returnUrl'     => $data->get('return_url'),
-            'method'        => $this->getMethod($transaction),
+            'paymentMethod' => $this->getMethod($transaction),
         );
 
         return $parameters;

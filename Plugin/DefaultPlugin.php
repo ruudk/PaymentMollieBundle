@@ -199,7 +199,8 @@ class DefaultPlugin extends AbstractPlugin
             'ideal'       => 'ideal',
             'mister_cash' => 'mistercash',
             'credit_card' => 'credit_card',
-            'paysafecard' => 'paysafecard'
+            'paysafecard' => 'paysafecard',
+            'paypal'      => 'paypal'
         );
 
         $name = substr($transaction->getPayment()->getPaymentInstruction()->getPaymentSystemName(), 7);

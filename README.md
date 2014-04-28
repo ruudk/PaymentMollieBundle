@@ -49,6 +49,7 @@ ruudk_payment_mollie:
       - mister_cash
       - credit_card
       - paysafecard
+      - paypal
 ```
 
 Make sure you set the `return_url` in the `predefined_data` for every payment method you enable:

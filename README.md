@@ -48,6 +48,7 @@ ruudk_payment_mollie:
       - ideal
       - mistercash
       - creditcard
+      - ...
 ```
 See the [Mollie API documentation](https://www.mollie.nl/files/documentatie/payments-api.html) for all available methods.
 

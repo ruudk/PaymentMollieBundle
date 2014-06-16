@@ -195,16 +195,6 @@ class DefaultPlugin extends AbstractPlugin
      */
     protected function getMethod(FinancialTransactionInterface $transaction)
     {
-        $methods = array(
-            'ideal'       => 'ideal',
-            'mister_cash' => 'mistercash',
-            'credit_card' => 'credit_card',
-            'paysafecard' => 'paysafecard',
-            'paypal'      => 'paypal'
-        );
-
-        $name = substr($transaction->getPayment()->getPaymentInstruction()->getPaymentSystemName(), 7);
-
-        return isset($methods[$name]) ? $methods[$name] : null;
+        return substr($transaction->getPayment()->getPaymentInstruction()->getPaymentSystemName(), 7);
     }
 }

@@ -46,11 +46,10 @@ ruudk_payment_mollie:
     logger:   true/false   # Default true
     methods:
       - ideal
-      - mister_cash
-      - credit_card
-      - paysafecard
-      - paypal
+      - mistercash
+      - creditcard
 ```
+See the [Mollie API documentation](https://www.mollie.nl/files/documentatie/payments-api.html) for all available methods.
 
 Make sure you set the `return_url` in the `predefined_data` for every payment method you enable:
 ````php

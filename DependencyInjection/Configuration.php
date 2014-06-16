@@ -15,8 +15,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ruudk_payment_mollie');
 
-        $methods = array('ideal', 'credit_card', 'mister_cash', 'paysafecard', 'paypal');
-
         $rootNode
             ->children()
                 ->scalarNode('api_key')
@@ -31,12 +29,9 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('method')
             ->children()
                 ->arrayNode('methods')
-                    ->defaultValue($methods)
+                    ->isRequired()
+                    ->cannotBeEmpty()
                     ->prototype('scalar')
-                        ->validate()
-                            ->ifNotInArray($methods)
-                            ->thenInvalid('%s is not a valid method.')
-                        ->end()
                     ->end()
                 ->end()
             ->end()

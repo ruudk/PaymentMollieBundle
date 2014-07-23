@@ -12,6 +12,8 @@ use JMS\Payment\CoreBundle\Plugin\Exception\FinancialException;
 use JMS\Payment\CoreBundle\Plugin\PluginInterface;
 use Psr\Log\LoggerInterface;
 use Omnipay\Mollie\Gateway;
+use Ruudk\Payment\MollieBundle\Exception\IdealIssuerTemporarilyUnavailableException;
+use Ruudk\Payment\MollieBundle\Exception\MollieTemporarilyUnavailableException;
 
 class DefaultPlugin extends AbstractPlugin
 {
@@ -128,8 +130,20 @@ class DefaultPlugin extends AbstractPlugin
 
             throw new BlockedException("Waiting for notification from Mollie.");
         }
+
+        $ex = new FinancialException('Payment failed.');
+        $ex->setFinancialTransaction($transaction);
+        $transaction->setResponseCode('FAILED');
+        $transaction->setReasonCode('FAILED');
+        $transaction->setState(FinancialTransactionInterface::STATE_FAILED);
+
+        throw $ex;
     }
 
+    /**
+     * @param FinancialTransactionInterface $transaction
+     * @return CommunicationException|IdealIssuerTemporarilyUnavailableException|MollieTemporarilyUnavailableException
+     */
     public function createMollieRedirectActionException(FinancialTransactionInterface $transaction)
     {
         $parameters = $this->getPurchaseParameters($transaction);
@@ -158,7 +172,19 @@ class DefaultPlugin extends AbstractPlugin
             return $actionRequest;
         }
 
-        throw new CommunicationException("Can't create Mollie payment");
+        if(!$response->isSuccessful()) {
+            $data = $response->getData();
+
+            if(isset($data['error']) && isset($data['error']['type']) && $data['error']['type'] == 'system') {
+                if(isset($data['error']['field']) && $data['error']['field'] == 'issuer') {
+                    return new IdealIssuerTemporarilyUnavailableException("Can't start payment because of an issue with the issuer. Other issuers may work.");
+                }
+
+                return new MollieTemporarilyUnavailableException($response->getMessage());
+            }
+        }
+
+        return new CommunicationException("Can't create Mollie payment");
     }
 
     /**

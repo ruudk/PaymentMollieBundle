@@ -2,6 +2,7 @@
 
 namespace Ruudk\Payment\MollieBundle\CacheWarmer;
 
+use Omnipay\Common\Issuer;
 use Omnipay\Mollie\Gateway;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmer;
 
@@ -13,11 +14,18 @@ class IssuersCacheWarmer extends CacheWarmer
     protected $gateway;
 
     /**
-     * @param Gateway $gateway
+     * @var string
      */
-    public function __construct(Gateway $gateway)
+    protected $environment;
+
+    /**
+     * @param Gateway $gateway
+     * @param string  $environment
+     */
+    public function __construct(Gateway $gateway, $environment)
     {
         $this->gateway = $gateway;
+        $this->environment = $environment;
     }
 
     /**
@@ -28,7 +36,11 @@ class IssuersCacheWarmer extends CacheWarmer
     public function warmUp($cacheDir)
     {
         try {
-            $issuers = $this->gateway->fetchIssuers()->send()->getIssuers();
+            if('test' !== $this->environment) {
+                $issuers = $this->gateway->fetchIssuers()->send()->getIssuers();
+            } else {
+                $issuers = array(new Issuer('ideal_TESTNL99', 'TBM Bank', 'ideal'));
+            }
 
             $cacheFile = "<?php return array(" . PHP_EOL;
             foreach($issuers AS $issuer) {

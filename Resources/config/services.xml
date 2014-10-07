@@ -18,6 +18,7 @@
     <services>
         <service id="ruudk_payment_mollie.cache_warmer" class="%ruudk_payment_mollie.cache_warmer.class%">
             <argument type="service" id="ruudk_payment_mollie.gateway" />
+            <argument>%kernel.environment%</argument>
             <tag name="kernel.cache_warmer" />
         </service>
 

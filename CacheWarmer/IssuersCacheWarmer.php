@@ -36,7 +36,7 @@ class IssuersCacheWarmer extends CacheWarmer
     public function warmUp($cacheDir)
     {
         try {
-            if('test' !== $this->environment) {
+            if(!in_array($this->environment, ['dev', 'test'])) {
                 $issuers = $this->gateway->fetchIssuers()->send()->getIssuers();
             } else {
                 $issuers = array(new Issuer('ideal_TESTNL99', 'TBM Bank', 'ideal'));

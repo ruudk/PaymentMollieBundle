@@ -27,16 +27,23 @@ class IdealType extends MollieType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $banks = array();
+        $defaultBank = null;
         foreach($this->issuers AS $issuer) {
             if('ideal' !== $issuer->getPaymentMethod()) {
                 continue;
             }
 
             $banks[$issuer->getId()] = $issuer->getName();
+            $defaultBank = $issuer->getId();
+        }
+
+        if(1 !== count($banks)) {
+            $defaultBank = null;
         }
 
         $builder->add('bank', 'choice', array(
             'label'       => 'ruudk_payment_mollie.ideal.bank.label',
+            'data'        => $defaultBank,
             'empty_value' => 'ruudk_payment_mollie.ideal.bank.empty_value',
             'choices'     => $banks
         ));

@@ -121,6 +121,21 @@ class DefaultPlugin extends AbstractPlugin
                 throw $ex;
             }
 
+            if($response->isRedirect()) {
+                $ex = new ActionRequiredException('Redirect the user to Mollie.');
+                $ex->setFinancialTransaction($transaction);
+                $ex->setAction(new VisitUrl($response->getRedirectUrl()));
+
+                if($this->logger) {
+                    $this->logger->info(sprintf(
+                        'Create a new redirect exception for transaction "%s".',
+                        $response->getTransactionReference()
+                    ));
+                }
+
+                throw $ex;
+            }
+
             if($this->logger) {
                 $this->logger->info(sprintf(
                     'Waiting for notification from Mollie for transaction "%s".',

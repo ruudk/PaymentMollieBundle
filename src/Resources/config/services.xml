@@ -12,10 +12,10 @@
         <parameter key="ruudk_payment_mollie.plugin.default.class">Ruudk\Payment\MollieBundle\Plugin\DefaultPlugin</parameter>
         <parameter key="ruudk_payment_mollie.plugin.ideal.class">Ruudk\Payment\MollieBundle\Plugin\IdealPlugin</parameter>
         <parameter key="ruudk_payment_mollie.api_key" />
-        <parameter key="ruudk_payment_mollie.ideal.issuers.test">
+        <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.test">
             <parameter key="ideal_TESTNL99">TBM Bank</parameter>
         </parameter>
-        <parameter key="ruudk_payment_mollie.ideal.issuers.live">
+        <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.live">
             <parameter key="ideal_ABNANL2A">ABN AMRO</parameter>
             <parameter key="ideal_ASNBNL21">ASN Bank</parameter>
             <parameter key="ideal_INGBNL2A">ING</parameter>

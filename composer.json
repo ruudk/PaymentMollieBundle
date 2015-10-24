@@ -4,7 +4,7 @@
     "description": "A Symfony2 Bundle that provides access to the Mollie API. Based on JMSPaymentCoreBundle.",
     "keywords": ["payment", "mollie"],
     "homepage": "https://github.com/ruudk/PaymentMollieBundle",
-    "license": "Apache2",
+    "license": "MIT",
     "authors": [
         {
             "name": "Ruud Kamphuis",

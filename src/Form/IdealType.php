@@ -4,26 +4,27 @@ namespace Ruudk\Payment\MollieBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Omnipay\Common\Issuer;
 
 class IdealType extends MollieType
 {
     /**
-     * @var \Omnipay\Common\Issuer[]
+     * @var Issuer[]
      */
     protected $issuers = array();
 
     /**
      * @param string $name
-     * @param string $cacheDir
+     * @param array  $issuers
      */
-    public function __construct($name, $cacheDir)
+    public function __construct($name, array $issuers)
     {
         parent::__construct($name);
 
         $this->name = $name;
 
-        if (null !== $cacheDir && is_file($cache = $cacheDir . '/ruudk_payment_mollie_issuers.php')) {
-            $this->issuers = require $cache;
+        foreach ($issuers as $issuerId => $issuerName) {
+            $this->issuers[] = new Issuer($issuerId, $issuerName, 'ideal');
         }
     }
 

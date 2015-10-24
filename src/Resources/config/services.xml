@@ -5,7 +5,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="ruudk_payment_mollie.cache_warmer.class">Ruudk\Payment\MollieBundle\CacheWarmer\IssuersCacheWarmer</parameter>
         <parameter key="ruudk_payment_mollie.controller.notification.class">Ruudk\Payment\MollieBundle\Controller\NotificationController</parameter>
         <parameter key="ruudk_payment_mollie.gateway.class">Omnipay\Mollie\Gateway</parameter>
         <parameter key="ruudk_payment_mollie.form.ideal_type.class">Ruudk\Payment\MollieBundle\Form\IdealType</parameter>
@@ -13,15 +12,23 @@
         <parameter key="ruudk_payment_mollie.plugin.default.class">Ruudk\Payment\MollieBundle\Plugin\DefaultPlugin</parameter>
         <parameter key="ruudk_payment_mollie.plugin.ideal.class">Ruudk\Payment\MollieBundle\Plugin\IdealPlugin</parameter>
         <parameter key="ruudk_payment_mollie.api_key" />
+        <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.test">
+            <parameter key="ideal_TESTNL99">TBM Bank</parameter>
+        </parameter>
+        <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.live">
+            <parameter key="ideal_ABNANL2A">ABN AMRO</parameter>
+            <parameter key="ideal_ASNBNL21">ASN Bank</parameter>
+            <parameter key="ideal_INGBNL2A">ING</parameter>
+            <parameter key="ideal_KNABNL2H">Knab</parameter>
+            <parameter key="ideal_RABONL2U">Rabobank</parameter>
+            <parameter key="ideal_RBRBNL21">RegioBank</parameter>
+            <parameter key="ideal_SNSBNL2A">SNS Bank</parameter>
+            <parameter key="ideal_TRIONL2U">Triodos Bank</parameter>
+            <parameter key="ideal_FVLBNL22">van Lanschot</parameter>
+        </parameter>
     </parameters>
 
     <services>
-        <service id="ruudk_payment_mollie.cache_warmer" class="%ruudk_payment_mollie.cache_warmer.class%">
-            <argument type="service" id="ruudk_payment_mollie.gateway" />
-            <argument>%kernel.environment%</argument>
-            <tag name="kernel.cache_warmer" />
-        </service>
-
         <service id="ruudk_payment_mollie.controller.notification" class="%ruudk_payment_mollie.controller.notification.class%">
             <argument type="service" id="payment.plugin_controller" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />

@@ -25,14 +25,7 @@ class RuudkPaymentMollieExtension extends Extension
         $container->setParameter('ruudk_payment_mollie.api_key', $config['api_key']);
 
         foreach($config['methods'] AS $method) {
-            $this->addFormType($container, $method);
-        }
-
-        /**
-         * When iDeal is not enabled, remove the cache warmer.
-         */
-        if(!in_array('ideal', $config['methods'])) {
-            $container->removeDefinition('ruudk_payment_mollie.cache_warmer');
+            $this->addFormType($config, $container, $method);
         }
 
         /**
@@ -46,7 +39,7 @@ class RuudkPaymentMollieExtension extends Extension
         }
     }
 
-    protected function addFormType(ContainerBuilder $container, $method)
+    protected function addFormType(array $config, ContainerBuilder $container, $method)
     {
         $mollieMethod = 'mollie_' . $method;
 
@@ -56,7 +49,10 @@ class RuudkPaymentMollieExtension extends Extension
 
         if($method === 'ideal') {
             $definition->setClass('%ruudk_payment_mollie.form.ideal_type.class%');
-            $definition->addArgument('%kernel.cache_dir%');
+            $definition->addArgument(sprintf(
+                '%%ruudk_payment_mollie.ideal.issuers.%s%%',
+                substr($config['api_key'], 0, 4) == 'live' ? 'live' : 'test'
+            ));
         }
 
         $definition->addTag('payment.method_form_type');

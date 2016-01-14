@@ -18,6 +18,7 @@
         <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.live">
             <parameter key="ideal_ABNANL2A">ABN AMRO</parameter>
             <parameter key="ideal_ASNBNL21">ASN Bank</parameter>
+            <parameter key="ideal_BUNQNL2A">Bunq</parameter>
             <parameter key="ideal_INGBNL2A">ING</parameter>
             <parameter key="ideal_KNABNL2H">Knab</parameter>
             <parameter key="ideal_RABONL2U">Rabobank</parameter>

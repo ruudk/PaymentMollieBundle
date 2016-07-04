@@ -5,12 +5,13 @@ namespace Ruudk\Payment\MollieBundle\Plugin;
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
 use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
 use JMS\Payment\CoreBundle\Plugin\ErrorBuilder;
+use Ruudk\Payment\MollieBundle\Form\IdealType;
 
 class IdealPlugin extends DefaultPlugin
 {
     public function processes($name)
     {
-        return $name === 'mollie_ideal';
+        return $name === IdealType::class;
     }
 
     public function checkPaymentInstruction(PaymentInstructionInterface $instruction)
@@ -23,7 +24,7 @@ class IdealPlugin extends DefaultPlugin
         $data = $instruction->getExtendedData();
 
         if(!$data->get('bank')) {
-            $errorBuilder->addDataError('data_mollie_ideal.bank', 'form.error.bank_required');
+            $errorBuilder->addDataError('data_Ruudk_Payment_MollieBundle_Form_IdealType.bank', 'form.error.bank_required');
         }
 
         if ($errorBuilder->hasErrors()) {

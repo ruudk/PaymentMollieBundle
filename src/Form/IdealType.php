@@ -3,6 +3,7 @@
 namespace Ruudk\Payment\MollieBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Omnipay\Common\Issuer;
@@ -46,7 +47,7 @@ class IdealType extends AbstractType
             $defaultBank = $options['bank'];
         }
 
-        $builder->add('bank', 'choice', array(
+        $builder->add('bank', ChoiceType::class, array(
             'label'       => 'ruudk_payment_mollie.ideal.bank.label',
             'data'        => $defaultBank,
             'empty_value' => 'ruudk_payment_mollie.ideal.bank.empty_value',

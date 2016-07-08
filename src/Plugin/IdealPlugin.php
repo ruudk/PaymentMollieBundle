@@ -11,7 +11,7 @@ class IdealPlugin extends DefaultPlugin
 {
     public function processes($name)
     {
-        return $name === IdealType::class;
+        return $name === IdealType::class || $name === 'mollie_ideal';
     }
 
     public function checkPaymentInstruction(PaymentInstructionInterface $instruction)

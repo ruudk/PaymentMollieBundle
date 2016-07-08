@@ -46,7 +46,12 @@ class DefaultPlugin extends AbstractPlugin
 
     public function processes($name)
     {
-        return $name !== IdealType::class && preg_match('/Mollie/', $name);
+        return $name !== IdealType::class &&
+               $name !== 'mollie_ideal' &&
+               (
+                   preg_match('/Mollie/', $name) ||
+                   preg_match('/^mollie_/', $name)
+               );
     }
 
     public function approveAndDeposit(FinancialTransactionInterface $transaction, $retry)
@@ -78,6 +83,10 @@ class DefaultPlugin extends AbstractPlugin
 
                     if(!empty($data['details']['consumerAccount'])) {
                         $transaction->getExtendedData()->set('consumer_account_number', $data['details']['consumerAccount']);
+                    }
+
+                    if (!empty($data['details']['cardFingerprint'])) {
+                        $transaction->getExtendedData()->set('card_fingerprint', $data['details']['cardFingerprint']);
                     }
                 }
 

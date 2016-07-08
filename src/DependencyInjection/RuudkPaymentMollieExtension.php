@@ -45,6 +45,7 @@ class RuudkPaymentMollieExtension extends Extension
 
         $definition = new Definition();
         $definition->setClass(sprintf('%%ruudk_payment_mollie.form.%s_type.class%%', $method));
+        $definition->addArgument($mollieMethod);
 
         if($method === 'ideal') {
             $definition->addArgument(sprintf(

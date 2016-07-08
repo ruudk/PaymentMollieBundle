@@ -2,13 +2,12 @@
 
 namespace Ruudk\Payment\MollieBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Omnipay\Common\Issuer;
 
-class IdealType extends AbstractType
+class IdealType extends NamedType
 {
     /**
      * @var Issuer[]
@@ -19,8 +18,10 @@ class IdealType extends AbstractType
      * @param string $name
      * @param array  $issuers
      */
-    public function __construct(array $issuers)
+    public function __construct($name, array $issuers)
     {
+        parent::__construct($name);
+
         foreach ($issuers as $issuerId => $issuerName) {
             $this->issuers[] = new Issuer($issuerId, $issuerName, 'ideal');
         }

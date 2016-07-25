@@ -15,7 +15,6 @@ class IdealType extends NamedType
     protected $issuers = array();
 
     /**
-     * @param string $name
      * @param array  $issuers
      */
     public function __construct($name, array $issuers)
@@ -32,15 +31,15 @@ class IdealType extends NamedType
         $banks = array();
         $defaultBank = null;
         foreach($this->issuers AS $issuer) {
-            if('ideal' !== $issuer->getPaymentMethod()) {
+            if ('ideal' !== $issuer->getPaymentMethod()) {
                 continue;
             }
 
-            $banks[$issuer->getId()] = $issuer->getName();
+            $banks[$issuer->getName()] = $issuer->getId();
             $defaultBank = $issuer->getId();
         }
 
-        if(1 !== count($banks)) {
+        if (1 !== count($banks)) {
             $defaultBank = null;
         }
 
@@ -49,10 +48,11 @@ class IdealType extends NamedType
         }
 
         $builder->add('bank', ChoiceType::class, array(
-            'label'       => 'ruudk_payment_mollie.ideal.bank.label',
-            'data'        => $defaultBank,
-            'empty_value' => 'ruudk_payment_mollie.ideal.bank.empty_value',
-            'choices'     => $banks
+            'label'             => 'ruudk_payment_mollie.ideal.bank.label',
+            'data'              => $defaultBank,
+            'empty_value'       => 'ruudk_payment_mollie.ideal.bank.empty_value',
+            'choices'           => $banks,
+            'choices_as_values' => true,
         ));
     }
 

@@ -2,10 +2,10 @@
 
 namespace Ruudk\Payment\MollieBundle\Form;
 
+use Omnipay\Common\Issuer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Omnipay\Common\Issuer;
 
 class IdealType extends NamedType
 {
@@ -30,7 +30,8 @@ class IdealType extends NamedType
     {
         $banks = array();
         $defaultBank = null;
-        foreach($this->issuers AS $issuer) {
+
+        foreach ($this->issuers as $issuer) {
             if ('ideal' !== $issuer->getPaymentMethod()) {
                 continue;
             }
@@ -50,7 +51,7 @@ class IdealType extends NamedType
         $builder->add('bank', ChoiceType::class, array(
             'label'             => 'ruudk_payment_mollie.ideal.bank.label',
             'data'              => $defaultBank,
-            'empty_value'       => 'ruudk_payment_mollie.ideal.bank.empty_value',
+            'placeholder'       => 'ruudk_payment_mollie.ideal.bank.empty_value',
             'choices'           => $banks,
             'choices_as_values' => true,
         ));
@@ -64,8 +65,8 @@ class IdealType extends NamedType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'bank' => ''
-        ));
+                                   'bank' => ''
+                               ));
 
         $resolver->setAllowedTypes('bank', 'string');
     }

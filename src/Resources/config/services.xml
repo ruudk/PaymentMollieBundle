@@ -11,6 +11,8 @@
         <parameter key="ruudk_payment_mollie.form.mistercash_type.class">Ruudk\Payment\MollieBundle\Form\MistercashType</parameter>
         <parameter key="ruudk_payment_mollie.form.creditcard_type.class">Ruudk\Payment\MollieBundle\Form\CreditcardType</parameter>
         <parameter key="ruudk_payment_mollie.form.sofort_type.class">Ruudk\Payment\MollieBundle\Form\SofortType</parameter>
+        <parameter key="ruudk_payment_mollie.form.banktransfer_type.class">Ruudk\Payment\MollieBundle\Form\BanktransferType</parameter>
+        <parameter key="ruudk_payment_mollie.form.belfius_type.class">Ruudk\Payment\MollieBundle\Form\BelfiusType</parameter>
         <parameter key="ruudk_payment_mollie.plugin.default.class">Ruudk\Payment\MollieBundle\Plugin\DefaultPlugin</parameter>
         <parameter key="ruudk_payment_mollie.plugin.ideal.class">Ruudk\Payment\MollieBundle\Plugin\IdealPlugin</parameter>
         <parameter key="ruudk_payment_mollie.api_key" />

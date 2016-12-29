@@ -18,6 +18,8 @@ use Ruudk\Payment\MollieBundle\Form\CreditcardType;
 use Ruudk\Payment\MollieBundle\Form\IdealType;
 use Ruudk\Payment\MollieBundle\Form\MistercashType;
 use Ruudk\Payment\MollieBundle\Form\SofortType;
+use Ruudk\Payment\MollieBundle\Form\BanktransferType;
+use Ruudk\Payment\MollieBundle\Form\BelfiusType;
 
 class DefaultPlugin extends AbstractPlugin
 {
@@ -258,6 +260,10 @@ class DefaultPlugin extends AbstractPlugin
                 return 'mistercash';
             case SofortType::class:
                 return 'sofort';
+            case BanktransferType::class:
+                return 'banktransfer';
+            case BelfiusType::class:
+                return 'belfius';
         }
 
         return substr($transaction->getPayment()->getPaymentInstruction()->getPaymentSystemName(), 7);

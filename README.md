@@ -48,6 +48,10 @@ ruudk_payment_mollie:
       - ideal
       - mistercash
       - creditcard
+      - sofort
+      - banktransfer
+      - belfius
+      - kbc
       - ...
 ```
 See the [Mollie API documentation](https://www.mollie.nl/files/documentatie/payments-api.html) for all available methods.

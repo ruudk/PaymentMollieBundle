@@ -16,6 +16,7 @@ use Ruudk\Payment\MollieBundle\Exception\IdealIssuerTemporarilyUnavailableExcept
 use Ruudk\Payment\MollieBundle\Exception\MollieTemporarilyUnavailableException;
 use Ruudk\Payment\MollieBundle\Form\CreditcardType;
 use Ruudk\Payment\MollieBundle\Form\IdealType;
+use Ruudk\Payment\MollieBundle\Form\KbcType;
 use Ruudk\Payment\MollieBundle\Form\MistercashType;
 use Ruudk\Payment\MollieBundle\Form\SofortType;
 use Ruudk\Payment\MollieBundle\Form\BanktransferType;
@@ -264,6 +265,8 @@ class DefaultPlugin extends AbstractPlugin
                 return 'banktransfer';
             case BelfiusType::class:
                 return 'belfius';
+            case KbcType::class:
+                return 'kbc';
         }
 
         return substr($transaction->getPayment()->getPaymentInstruction()->getPaymentSystemName(), 7);

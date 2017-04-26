@@ -23,10 +23,6 @@ class IdealPlugin extends DefaultPlugin
          */
         $data = $instruction->getExtendedData();
 
-        if(!$data->get('bank')) {
-            $errorBuilder->addDataError('data_Ruudk_Payment_MollieBundle_Form_IdealType.bank', 'form.error.bank_required');
-        }
-
         if ($errorBuilder->hasErrors()) {
             throw $errorBuilder->getException();
         }
@@ -44,7 +40,9 @@ class IdealPlugin extends DefaultPlugin
         $data = $transaction->getExtendedData();
 
         $parameters = parent::getPurchaseParameters($transaction);
-        $parameters['issuer'] = $data->get('bank');
+        if($data->has('bank')) {
+            $parameters['issuer'] = $data->get('bank');
+        }
 
         return $parameters;
     }

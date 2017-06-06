@@ -226,6 +226,9 @@ class DefaultPlugin extends AbstractPlugin
             'returnUrl'     => $data->get('return_url'),
             'paymentMethod' => $this->getMethod($transaction),
         );
+        if ($data->has('notify_url')) {
+            $parameters['notifyUrl'] = $data->get('notify_url');
+        }
 
         return $parameters;
     }

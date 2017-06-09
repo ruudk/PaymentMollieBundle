@@ -70,4 +70,7 @@ $form = $this->getFormFactory()->create('jms_choose_payment_method', null, array
 ````
 It's also possible to set a `description` for the transaction in the `predefined_data`.
 
+To use the Mollie Webhook you should also set the `notify_url` for every transaction. You can use the default 
+processNotification route `ruudk_payment_mollie_notifications` for this url.
+
 See [JMSPaymentCoreBundle documentation](http://jmsyst.com/bundles/JMSPaymentCoreBundle/master/usage) for more info.

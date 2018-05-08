@@ -18,7 +18,16 @@
         <parameter key="ruudk_payment_mollie.plugin.ideal.class">Ruudk\Payment\MollieBundle\Plugin\IdealPlugin</parameter>
         <parameter key="ruudk_payment_mollie.api_key" />
         <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.test">
-            <parameter key="ideal_TESTNL99">TBM Bank</parameter>
+            <parameter key="ideal_ABNANL2A">ABN AMRO (test)</parameter>
+            <parameter key="ideal_ASNBNL21">ASN Bank (test)</parameter>
+            <parameter key="ideal_BUNQNL2A">Bunq (test)</parameter>
+            <parameter key="ideal_INGBNL2A">ING (test)</parameter>
+            <parameter key="ideal_KNABNL2H">Knab (test)</parameter>
+            <parameter key="ideal_RABONL2U">Rabobank (test)</parameter>
+            <parameter key="ideal_RBRBNL21">RegioBank (test)</parameter>
+            <parameter key="ideal_SNSBNL2A">SNS Bank (test)</parameter>
+            <parameter key="ideal_TRIONL2U">Triodos Bank (test)</parameter>
+            <parameter key="ideal_FVLBNL22">Van Lanschot (test)</parameter>
         </parameter>
         <parameter type="collection" key="ruudk_payment_mollie.ideal.issuers.live">
             <parameter key="ideal_ABNANL2A">ABN AMRO</parameter>
@@ -30,7 +39,7 @@
             <parameter key="ideal_RBRBNL21">RegioBank</parameter>
             <parameter key="ideal_SNSBNL2A">SNS Bank</parameter>
             <parameter key="ideal_TRIONL2U">Triodos Bank</parameter>
-            <parameter key="ideal_FVLBNL22">van Lanschot</parameter>
+            <parameter key="ideal_FVLBNL22">Van Lanschot</parameter>
         </parameter>
     </parameters>
 

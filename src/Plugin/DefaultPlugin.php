@@ -14,10 +14,14 @@ use Psr\Log\LoggerInterface;
 use Omnipay\Mollie\Gateway;
 use Ruudk\Payment\MollieBundle\Exception\IdealIssuerTemporarilyUnavailableException;
 use Ruudk\Payment\MollieBundle\Exception\MollieTemporarilyUnavailableException;
+use Ruudk\Payment\MollieBundle\Form\BitcoinType;
 use Ruudk\Payment\MollieBundle\Form\CreditcardType;
 use Ruudk\Payment\MollieBundle\Form\IdealType;
+use Ruudk\Payment\MollieBundle\Form\InghomepayType;
 use Ruudk\Payment\MollieBundle\Form\KbcType;
 use Ruudk\Payment\MollieBundle\Form\MistercashType;
+use Ruudk\Payment\MollieBundle\Form\PaypalType;
+use Ruudk\Payment\MollieBundle\Form\PaysafecardType;
 use Ruudk\Payment\MollieBundle\Form\SofortType;
 use Ruudk\Payment\MollieBundle\Form\BanktransferType;
 use Ruudk\Payment\MollieBundle\Form\BelfiusType;
@@ -270,6 +274,14 @@ class DefaultPlugin extends AbstractPlugin
                 return 'belfius';
             case KbcType::class:
                 return 'kbc';
+            case InghomepayType::class:
+                return 'inghomepay';
+            case BitcoinType::class:
+                return 'bitcoin';
+            case PaypalType::class:
+                return 'paypal';
+            case PaysafecardType::class:
+                return 'paysafecard';
         }
 
         return substr($transaction->getPayment()->getPaymentInstruction()->getPaymentSystemName(), 7);

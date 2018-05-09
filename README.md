@@ -52,6 +52,10 @@ ruudk_payment_mollie:
       - banktransfer
       - belfius
       - kbc
+      - inghomepay
+      - bitcoin
+      - paypal
+      - paysafecard
       - ...
 ```
 See the [Mollie API documentation](https://www.mollie.nl/files/documentatie/payments-api.html) for all available methods.

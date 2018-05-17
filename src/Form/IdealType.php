@@ -53,7 +53,6 @@ class IdealType extends NamedType
             'data'              => $defaultBank,
             'placeholder'       => 'ruudk_payment_mollie.ideal.bank.empty_value',
             'choices'           => $banks,
-            'choices_as_values' => true,
         ));
     }
 

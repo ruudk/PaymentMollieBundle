@@ -17,7 +17,7 @@
         "symfony/form": "~3.4",
         "jms/payment-core-bundle": "~1.0",
         "psr/log": "~1.0",
-        "omnipay/mollie": "~3.0"
+        "omnipay/mollie": "~4.0"
     },
     "autoload": {
         "psr-4": { "Ruudk\\Payment\\MollieBundle\\": "src" }

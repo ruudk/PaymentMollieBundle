@@ -14,7 +14,7 @@
     "require": {
         "php": "^7.0",
         "symfony/framework-bundle": "~3.3",
-        "symfony/form": "~3.4",
+        "symfony/form": "~3.3",
         "jms/payment-core-bundle": "~1.0",
         "psr/log": "~1.0",
         "omnipay/mollie": "~4.0"

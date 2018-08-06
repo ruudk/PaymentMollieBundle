@@ -107,6 +107,24 @@ class DefaultPlugin extends AbstractPlugin
                 return;
             }
 
+
+            if('failed' === $response->getStatus()) {
+                $ex = new FinancialException('Payment failed.');
+                $ex->setFinancialTransaction($transaction);
+                $transaction->setResponseCode('FAILED');
+                $transaction->setReasonCode('FAILED');
+                $transaction->setState(FinancialTransactionInterface::STATE_FAILED);
+
+                if($this->logger) {
+                    $this->logger->info(sprintf(
+                        'Payment failed for transaction "%s".',
+                        $response->getTransactionReference()
+                    ));
+                }
+
+                throw $ex;
+            }
+            
             if($response->isCancelled()) {
                 $ex = new FinancialException('Payment cancelled.');
                 $ex->setFinancialTransaction($transaction);

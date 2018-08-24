@@ -47,7 +47,7 @@
 
         <service id="ruudk_payment_mollie.gateway" class="%ruudk_payment_mollie.gateway.class%">
             <argument>null</argument>
-            <argument type="service" id="request" on-invalid="null" strict="false" />
+            <argument type="service" id="request" on-invalid="null" />
             <call method="setApiKey">
                 <argument>%ruudk_payment_mollie.api_key%</argument>
             </call>

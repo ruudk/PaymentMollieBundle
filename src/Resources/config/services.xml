@@ -40,6 +40,7 @@
         <service id="ruudk_payment_mollie.controller.notification" class="%ruudk_payment_mollie.controller.notification.class%">
             <argument type="service" id="payment.plugin_controller" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <tag name="controller.service_arguments" />
             <call method="setLogger">
                 <argument type="service" id="monolog.logger.ruudk_payment_mollie" />
             </call>

@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('methods')
                     ->isRequired()
-                    ->cannotBeEmpty()
+                    ->requiresAtLeastOneElement()
                     ->prototype('scalar')
                     ->end()
                 ->end()

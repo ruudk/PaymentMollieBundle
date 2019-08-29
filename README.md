@@ -8,7 +8,7 @@ A Symfony2 Bundle that provides access to the Mollie API. Based on JMSPaymentCor
 ### Step1: Require the package with Composer
 
 ````
-php composer.phar require ruudk/payment-mollie-bundle
+composer require ruudk/payment-mollie-bundle
 ````
 
 ### Step2: Enable the bundle
